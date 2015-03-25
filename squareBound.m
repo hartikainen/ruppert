@@ -14,7 +14,7 @@ span = k * max(width, height) / 2;
 Bxmin = xmid - span;
 Bxmax = xmid + span;
 Bymin = ymid - span;
-Bymax = ymax + span;
+Bymax = ymid + span;
 
 BX = [Bxmin Bxmax Bxmin Bxmax];
 BY = [Bymin Bymin Bymax Bymax];
