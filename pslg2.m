@@ -14,31 +14,19 @@ image(img);
 segments = [];
 last_button = -123;
 len = size(X,1);
-points = [X Y];
-finalpoints = [];
-j = 1;
-for i=1:len
-    btn = BUTTON(i);
-    % press x for single vertices
-    if (btn == 120)
-        j = j+1;
-        finalpoints(j,:) = points(i,:);
-        continue;
-    end
-    % press c to connect with closest vertex
-    if (btn == 99)
-        cpoint = points(i,:);
-        points(i,:) = [-666 -666];
-        closestpoint = dsearchn(finalpoints,cpoint);
-        segments = [segments [j-1 closestpoint]'];
-        BUTTON(i) = last_button;
-    else
-        finalpoints(j,:) = points(i,:);
-        j = j+1;
-    end
-    if (btn == last_button)
-        segments = [segments [j-2 j-1]'];
-    end
-    last_button = btn;
-end
+finalpoints = [X Y];
 
+plot(X,Y,'o');
+
+[x,y,button] = ginput(2);
+while (button ~= 120)
+    apoint = [x(1) y(1)];
+    bpoint = [x(2) y(2)];
+    closestpointa = dsearchn(finalpoints,apoint);
+    closestpointb = dsearchn(finalpoints,bpoint);
+    segments = [segments [closestpointa closestpointb]'];
+    finalpointx = [finalpoints(closestpointa,1) finalpoints(closestpointb,1)];
+    finalpointy = [finalpoints(closestpointa,2) finalpoints(closestpointb,2)];
+    plot(finalpointx',finalpointy');
+    [x,y,button] = ginput(2);
+end
