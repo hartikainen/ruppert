@@ -22,16 +22,26 @@ while (encroached)
     plot(V(1, :), V(2, :), 'or');
     % Plot the original segments
     plot([points.x points.x(1)], [points.y points.y(1)], 'k', 'LineWidth', 3);    
-    
+    sss = size(V, 2);
     enroached_segments = []
     for i=1:size(S, 2)
         s = S(:, i);
         end_pts = V(:, s);
         d = pdist(end_pts'); % note the ' here.
         mid_pt = sum(end_pts, 2)/2; % mid = [(x1 + x2)/2, (y1 + y2)/2]
-        
-        if any(pdist2(V(:, setdiff(1:end, s))', mid_pt') < d/2)
+
+        if any(pdist2(V(:, setdiff(1:sss, s))', mid_pt') < d/2)
             enroached_segments(:, end+1) = s;
+            V = [V mid_pt];
+            TRI = delaunay(V');
+            % Remove s from S
+            % Add the two halves s1 and s2 to S.
+            new_pt_idx = size(V, 2);
+            s1 = [s(1); new_pt_idx];
+            s2 = [s(2); new_pt_idx];
+            S(:, i) = s1;
+            % [s';new_pt_idx new_pt_idx]
+            S(:, end+1) = s2;
 
             plot(mid_pt(1), mid_pt(2), 'ok');
             plot(end_pts(1, :), end_pts(2, :), 'r', 'LineWidth', 3);
