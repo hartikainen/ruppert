@@ -2,7 +2,7 @@ function [ TRI, V ] = ruppertTriangulation( V, S, alpha )
 %RUPPERTTRIANGULATION Triangulation by Ruppert algorithm.
 %   Creates a triangulation for the given area, using Ruppert's
 %   algorithm.
-
+X = V(1, :); Y = V(2, :);
 % argument 3 for the square side
 [V, S] = squareBound(V, S, 3);
 original_S = S;
@@ -21,7 +21,6 @@ end
 
 % While segments encroached upon, or angles > alpha
 while (true)
-    encroached_upon_s = false;
     angles_lt_alpha = false;
 
     i=1;
@@ -33,7 +32,6 @@ while (true)
             TRI = delaunay(V');
 
             % Used for breaking
-            encroached_upon_s = true;
             i = i - 1;
         end
         i = i+1;
@@ -43,7 +41,7 @@ while (true)
 
     angles_lt_alpha = size(skinny_TRI, 1) > 0;
 
-    if (~(encroached_upon_s || angles_lt_alpha))
+    if (~(angles_lt_alpha))
         break;
     end
 
@@ -56,12 +54,19 @@ while (true)
 
     if (length(encroached_idx) > 0)
         for i=encroached_idx
-            [S, V] = splitSeg(S, V, i);
+            [S, V] = splitSeg(S, V, i, original_S);
         end
         TRI = delaunay(V');
     else
         V = [V p'];
         TRI = delaunay(V');
     end
+end
+
+debug = 1;
+if (debug)
+    plot([X, X(1)], [Y, Y(1)], ':r', 'LineWidth', 4);
+    hold on
+    triplot(TRI, V(1, :), V(2, :));
 end
 end

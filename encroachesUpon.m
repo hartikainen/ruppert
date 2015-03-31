@@ -8,7 +8,6 @@ function [ encroached_idx ] = encroachesUpon( p, S, V )
         d = pdist(end_pts'); % note the ' here.
         mid_pt = sum(end_pts, 2) / 2;
         if (pdist2(p, mid_pt') < d/2)
-            encroached_S = [encroched_S s];
             encroached_idx(end+1) = i;
         end
     end

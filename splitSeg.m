@@ -29,15 +29,6 @@ function [ S, V ] = splitSeg( S, V, i, original_S )
         mid_pt = sum(end_pts, 2) / 2; % mid = [(x1 + x2)/2, (y1 + y2)/2]
     end
 
-    debug = 1;
-    if (debug)
-        plot(mid_pt(1), mid_pt(2), 'ok');
-        plot(end_pts(1, :), end_pts(2, :), 'r', 'LineWidth', 3);
-        % draw the circle
-        plot((d/2) * cos(0:pi/50:2*pi) + mid_pt(1), (d/2) * ...
-             sin(0:pi/50:2*pi) + mid_pt(2));
-    end
-
     % Add midpoint of s to V, update triangulation below.
     V = [V mid_pt];
 
