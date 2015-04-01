@@ -42,7 +42,7 @@ while (true)
     tr = triangulation(skinny_TRI(1, :), DT.Points);
     [p, r] = circumcenter(tr);
 
-encroached_idx = encroachesUpon(p, S, DT.Points);
+    encroached_idx = encroachesUpon(p, S, DT.Points);
 
     if (length(encroached_idx) > 0)
         for i=encroached_idx
