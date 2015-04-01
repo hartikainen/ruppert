@@ -58,6 +58,8 @@ debug = 1;
 if (debug)
     figure(1);
     clf;
+    subplot(1, 2, 2);
+    axis tight equal;
     hold on;
     % Plot the actual triangulation
     triplot(DT, 'k');
@@ -67,6 +69,21 @@ if (debug)
         plot(x, y, '-r', 'LineWidth', 2);
     end
     plot(X, Y, '.k', 'MarkerSize', 20);
-    title(sprintf('Delaunay Refinement triangulation with alpha=%.2f degrees', alpha));
+    title(sprintf('Delaunay Refinement triangulation, alpha=%.2f degrees', alpha));
+    
+    subplot(1, 2, 1);
+    axis tight equal;
+    hold on;
+    original_DT = delaunayTriangulation(X', Y');
+
+    triplot(original_DT, 'k');
+    for i=1:size(original_S, 2)
+        x = X(:, original_S(:, i));
+        y = Y(:, original_S(:, i));
+        plot(x, y, '-r', 'LineWidth', 2);
+    end
+    plot(X, Y, '.k', 'MarkerSize', 20);
+    title('Simple Delaunay triangulation');
+    
 end
 end
