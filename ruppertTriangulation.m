@@ -9,16 +9,6 @@ X = V(1, :); Y = V(2, :);
 original_S = S;
 DT = delaunayTriangulation(V');
 
-figure(1);
-clf;
-hold on;
-for i=1:size(S, 2)
-    x = X(:, S(:, i));
-    y = Y(:, S(:, i));
-    plot(x, y, '-k', 'LineWidth', 2);
-end
-plot(V(1, :), V(2, :), '.k', 'MarkerSize', 20);
-
 % While segments encroached upon, or angles > alpha
 while (true)
     angles_lt_alpha = false;
@@ -52,7 +42,7 @@ while (true)
     tr = triangulation(skinny_TRI(1, :), DT.Points);
     [p, r] = circumcenter(tr);
 
-    encroached_idx = encroachesUpon(p, S, DT.Points);
+encroached_idx = encroachesUpon(p, S, DT.Points);
 
     if (length(encroached_idx) > 0)
         for i=encroached_idx
@@ -63,10 +53,20 @@ while (true)
     end
 end
 
-debug = 0;
+debug = 1;
+
 if (debug)
-    plot([X, X(1)], [Y, Y(1)], ':r', 'LineWidth', 4);
-    hold on
-    triplot(DT);
+    figure(1);
+    clf;
+    hold on;
+    % Plot the actual triangulation
+    triplot(DT, 'k');
+    for i=1:size(original_S, 2)
+        x = X(:, original_S(:, i));
+        y = Y(:, original_S(:, i));
+        plot(x, y, '-r', 'LineWidth', 2);
+    end
+    plot(X, Y, '.k', 'MarkerSize', 20);
+    title(sprintf('Delaunay Refinement triangulation with alpha=%.2f degrees', alpha));
 end
 end

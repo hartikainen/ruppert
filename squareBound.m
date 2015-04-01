@@ -22,7 +22,7 @@ Bymax = ymid + span;
 
 BX = [Bxmin Bxmax Bxmin Bxmax];
 BY = [Bymin Bymin Bymax Bymax];
-BS = [1 1 2 3; 2 3 4 4] + length(S);
+BS = [1 1 2 3; 2 3 4 4] + size(V, 2);
 
 V = [V [BX;BY]];
 S = [S BS];
